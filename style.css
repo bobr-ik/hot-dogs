@@ -445,3 +445,7 @@ button:hover {
 #draw{
     display: none;
 }
+
+.popup h2{
+    text-align: center;
+}
