@@ -281,7 +281,7 @@ footer {
     font-size: 14px;
 }
 
-.controls {
+.controls_a {
     margin: 20px 0;
     display: none;
 }
@@ -343,6 +343,36 @@ input[type="range"] {
     background-color: #fdeaea;
 }
 
+.print-options-container {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px; /* Для скроллбара */
+    scrollbar-width: thin; /* Для Firefox */
+    text-align: center;
+}
+
+.print-options {
+    display: inline-flex;
+    gap: 10px;
+    white-space: nowrap;
+    padding: 5px 0;
+}
+
+.print-option {
+    min-width: 80px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.print-option.active {
+    border-color: #e74c3c;
+    background-color: #fdeaea;
+}
+
 /* Стилизация скроллбара для WebKit */
 .size-options-container::-webkit-scrollbar {
     height: 4px;
@@ -355,4 +385,63 @@ input[type="range"] {
 .size-options-container::-webkit-scrollbar-thumb {
     background: #e74c3c;
     border-radius: 2px;
+}
+
+
+
+.drawing-container {
+    margin: 20px 0;
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+canvas {
+    background-image: url(sausage.jpg);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    cursor: crosshair;
+    display: block;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button, input {
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#draw{
+    display: none;
 }

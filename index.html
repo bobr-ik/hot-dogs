@@ -106,7 +106,14 @@
                 </div>
             </div>
 
-            <div class="upload-container">
+            <div class="print-options-container">
+                <div class="print-options">
+                    <div class="print-option active" onclick="selectPrintOption(this, 'file')">Выбрать файл</div>
+                    <div class="print-option" onclick="selectPrintOption(this, 'draw')">нарисовать</div>
+                </div>
+            </div>
+
+            <div class="upload-container" id="file">
                 <h2>Загрузите ваше фото для гравировки</h2>
                 
                 <div class="upload-box" id="uploadBox">
@@ -116,7 +123,7 @@
                     <input type="file" id="fileInput" accept="image/*">
                 </div>
 
-                <div class="controls" id="controls">
+                <div class="controls_a" id="controls">
                     <div class="slider-container">
                         <label for="contrastSlider">Контрастность: <span id="contrastValue">100</span>%</label>
                         <input type="range" id="contrastSlider" min="0" max="200" value="100">
@@ -131,6 +138,21 @@
                     <h3>Предпросмотр:</h3>
                     <img id="previewImage" class="preview-image" src="#" alt="Ваше фото">
                     <button class="remove-btn" id="removeBtn">Удалить фото</button>
+                </div>
+            </div>
+
+            <div class="draw_container" id="draw">
+                <div class="controls">
+                    <button id="clearBtn">Очистить</button>
+                    <div class="color-picker">
+                        <label for="size">Размер:</label>
+                        <input type="range" id="size" min="1" max="50" value="5">
+                        <span id="sizeValue">5</span>
+                    </div>
+                </div>
+                
+                <div class="drawing-container">
+                    <canvas id="drawingCanvas" width="300" height="500"></canvas>
                 </div>
             </div>
             

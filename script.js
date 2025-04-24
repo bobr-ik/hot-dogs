@@ -234,6 +234,116 @@ function processImage() {
 function addToCart() {
     closePopup();
 }
+
+
+function selectPrintOption(element, type) {
+    document.querySelectorAll('.print-option').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+
+    if (type === 'file') {
+        document.getElementById('file').style.display = 'block';
+        document.getElementById('draw').style.display = 'none';
+    } else if (type === 'draw') {
+        document.getElementById('draw').style.display = 'block';
+        document.getElementById('file').style.display = 'none';
+    }
+}
+const canvas_a = document.getElementById('drawingCanvas');
+const ctx_a = canvas_a.getContext('2d', { willReadFrequently: true }); // Добавляем оптимизацию
+const clearBtn = document.getElementById('clearBtn');
+const colorPicker = document.getElementById('color');
+const sizeSlider = document.getElementById('size');
+const sizeValue = document.getElementById('sizeValue');
+
+let isDrawing = false;
+let currentColor = '#000000';
+let currentSize = 5;
+
+// Настройки прозрачного холста
+function initCanvas() {
+    // Очищаем с прозрачностью
+    ctx_a.clearRect(0, 0, canvas_a.width, canvas_a.height);
+    ctx_a.strokeStyle = currentColor;
+    ctx_a.lineWidth = currentSize;
+    ctx_a.lineCap = 'round';
+    ctx_a.lineJoin = 'round';
+    ctx_a.globalCompositeOperation = 'source-over'; // Стандартный режим рисования
+}
+
+// Инициализация при загрузке
+initCanvas();
+
+// Обработчики событий
+canvas_a.addEventListener('mousedown', startDrawing);
+canvas_a.addEventListener('mousemove', draw);
+canvas_a.addEventListener('mouseup', stopDrawing);
+canvas_a.addEventListener('mouseout', stopDrawing);
+
+// Для мобильных устройств
+canvas_a.addEventListener('touchstart', handleTouch);
+canvas_a.addEventListener('touchmove', handleTouch);
+canvas_a.addEventListener('touchend', stopDrawing);
+
+clearBtn.addEventListener('click', clearCanvas);
+sizeSlider.addEventListener('input', updateSize);
+
+// Функции
+function startDrawing(e) {
+    isDrawing = true;
+    draw(e);
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    
+    ctx_a.strokeStyle = currentColor;
+    ctx_a.lineWidth = currentSize;
+    
+    const rect = canvas_a.getBoundingClientRect();
+    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+    
+    ctx_a.lineTo(x, y);
+    ctx_a.stroke();
+    ctx_a.beginPath();
+    ctx_a.moveTo(x, y);
+}
+
+function handleTouch(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent(
+        e.type === 'touchstart' ? 'mousedown' : 'mousemove',
+        {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        }
+    );
+    canvas_a.dispatchEvent(mouseEvent);
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    ctx_a.beginPath();
+}
+
+function clearCanvas() {
+    // Очищаем с прозрачностью
+    ctx_a.clearRect(0, 0, canvas_a.width, canvas_a.height);
+    ctx_a.beginPath();
+}
+
+function updateColor(e) {
+    currentColor = e.target.value;
+}
+
+function updateSize(e) {
+    currentSize = e.target.value;
+    sizeValue.textContent = currentSize;
+}
+
+// Для корректного отображения прозрачности в CSS
+canvas_a.style.backgroundColor = 'transparent';
 function closePopup() {
     document.getElementById('popup').classList.remove('active');
     popup.scrollTop = 0;
@@ -242,4 +352,5 @@ function closePopup() {
     previewContainer.style.display = 'none';
     uploadBox.style.display = 'block';
     uploadBox.classList.remove('active');
+    clearCanvas();
 }
